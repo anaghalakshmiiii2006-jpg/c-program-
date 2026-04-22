@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* reverse(struct Node* head) {
+    struct Node *prev = NULL, *current = head, *next = NULL;
+
+    while (current != NULL) {
+        next = current->next;   // store next node
+        current->next = prev;   // reverse link
+        prev = current;         // move prev forward
+        current = next;         // move current forward
+    }
+    return prev; // new head
+}
+
+// Function to print list
+void display(struct Node* head) {
+    while (head != NULL) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    // Create sample list: 1 -> 2 -> 3 -> 4
+    struct Node *head = (struct Node*)malloc(sizeof(struct Node));
+    head->data = 1;
+
+    head->next = (struct Node*)malloc(sizeof(struct Node));
+    head->next->data = 2;
+
+    head->next->next = (struct Node*)malloc(sizeof(struct Node));
+    head->next->next->data = 3;
+
+    head->next->next->next = (struct Node*)malloc(sizeof(struct Node));
+    head->next->next->next->data = 4;
+    head->next->next->next->next = NULL;
+
+    printf("Original List:\n");
+    display(head);
+
+    head = reverse(head);
+
+    printf("Reversed List:\n");
+    display(head);
+
+    return 0;
+}
